@@ -100,6 +100,16 @@ class RandomChooserTest {
                 expect(it.result is_ Equal to_ Values(1, 3))
             }
 
+    @Test
+    fun `choosing elements not directly adjacent to first one`() =
+            test while_ {
+                randomStream = byteStreamOf(2, 0)
+            } when_ {
+                sut.chooseFrom(listOf(0, 1, 2), 2)
+            } then {
+                expect(it.result is_ Equal to_ listOf(2, 1))
+            }
+
     private companion object {
         fun byteStreamOf(vararg ints: Int) = byteArrayOf(*ints).iterator()
         fun byteArrayOf(vararg ints: Int): ByteArray =

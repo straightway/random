@@ -34,9 +34,9 @@ class RandomChooser(val source: Iterator<Byte>) : Chooser {
     private fun <T> List<T>.swappedIndices(a: Int, b: Int): List<T> =
             if (a == b)
                 this
-            else slice(0 until a - 1) +
+            else slice(0 until a) +
                     listOf(this[b]) +
-                    slice(a + 1 until b - 1) +
+                    slice(a + 1 until b) +
                     listOf(this[a]) +
                     slice(b + 1 until size)
 
