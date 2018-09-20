@@ -15,9 +15,13 @@
  */
 package straightway.random
 
+/**
+ * A random distribution generating the values using a
+ * generator function passed to the constructor.
+ */
 class GeneratedRandomDistribution<T>(
-        private val source: Iterator<Byte>,
-        private val numberOfBytesPerValue: Int,
+        source: Iterator<Byte>,
+        numberOfBytesPerValue: Int,
         private val converter: ByteArray.() -> T
 ) : RandomDistributionBase<T>(source, numberOfBytesPerValue) {
     override fun ByteArray.byteArrayConverter() = converter()

@@ -15,6 +15,10 @@
  */
 package straightway.random
 
+/**
+ * A random distribution which wraps another random distribution and maps
+ * the random values to something else.
+ */
 class MappedRandomDistribution<T, U>(
         private val underlyingDistribution: RandomDistribution<U>,
         private val mapper: (U) -> T
