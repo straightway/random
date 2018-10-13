@@ -65,5 +65,16 @@ class UniformDoubleDistribution0to1Test {
                 expect(it.result is_ Equal to_ 0.25)
             }
 
+    @Test
+    fun `toRandomStream yields stream with specified pseudo random numbers`() =
+        Given {
+            listOf(0.1, 0.0, 0.5, 1.0, 0.8)
+        } when_ {
+            toRandomStream()
+        } then {
+            val randomValues = UniformDoubleDistribution0to1(it.result.iterator()).toList()
+            expect(randomValues is_ Equal to_ this)
+        }
+
     private fun randomStream(bits: Long) = bits.toByteArray().drop(1).iterator()
 }

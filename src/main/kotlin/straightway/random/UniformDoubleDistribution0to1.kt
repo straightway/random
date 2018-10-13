@@ -16,6 +16,7 @@
 package straightway.random
 
 import straightway.utils.getLong
+import straightway.utils.toByteArray
 import kotlin.math.pow
 
 /**
@@ -25,12 +26,16 @@ import kotlin.math.pow
 class UniformDoubleDistribution0to1(source: Iterator<Byte>)
     : RandomDistributionBase<Double>(source, BYTES_TO_USE) {
 
-    private companion object {
-        const val BYTES_TO_USE: Int = 7
-        const val BITS_TO_USE = BYTES_TO_USE * java.lang.Byte.SIZE
-        const val RANGE_MASK = (1L shl BITS_TO_USE) - 1L
-        val FACTOR = 2.0.pow(-BITS_TO_USE)
-    }
-
-    override fun ByteArray.byteArrayConverter() = (getLong() and RANGE_MASK) * FACTOR
+    override fun ByteArray.byteArrayConverter() = (getLong() and RANGE_MASK) * factor
 }
+
+private const val BYTES_TO_USE: Int = 7
+private const val BITS_TO_USE = BYTES_TO_USE * java.lang.Byte.SIZE
+private const val RANGE_MASK = (1L shl BITS_TO_USE) - 1L
+private val factor = 2.0.pow(-BITS_TO_USE)
+
+fun Iterable<Double>.toRandomStream(): Iterable<Byte> =
+        flatMap {
+            val long = (it / factor).toLong()
+            (if (RANGE_MASK < long) RANGE_MASK else long).toByteArray().drop(1)
+        }
